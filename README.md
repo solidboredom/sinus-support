@@ -10,40 +10,19 @@ sinussupport.html*
 
 written in javascript intended for use with OpenScad
 
-### USE OF THIS PROGRAM (See MORE INSTRUCTIONS BELOW):  
+## USE OF THIS PROGRAM (See MORE INSTRUCTIONS BELOW):  
 It generates very fast printable support material with very few travel moves and deccelerations
 
-<table style="border:1px solid black;">
 
-<tbody>
+##from this:
+![](images/stl.png)
+##to this:
+![](images/ModWithSupport.png)
+##having very few sharp corners(no deccelerations) and few travel moves like this:
+![](images/fewTravelMoves.png)
 
-<tr>
 
-<th>from this:</th>
-
-<th>to this:</th>
-
-<th>having very few sharp corners(no deccelerations) and few travel moves like this:</th>
-
-</tr>
-
-<tr>
-
-<td>  
-![](images/stl.png)</td>
-
-<td>  
-![](images/ModWithSupport.png)</td>
-
-<td>  
-![](images/fewTravelMoves.png)</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
+##Instructions:
 *   (INSTALLATION: download the full .zip file from github and extract it into a local folder, change to this new folder and open sinussupport.html from there).
 
 *   step 1:create a 2D projection of your models .stl using openscad:  
