@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title> SinusSupport: Generates very fast printable support material with very few travel moves and deccelerations</title>
+</head>
+
+<body>
+    <div id="noconn">
+        <h1> ERROR LOADING SCRIPT PROGRAM!    unable to load sinussupport.js</h1> If you see this message that means the script file sinussupport.js, which is referenced and used by this page, was not properly loaded by your browser. Every time you open this sinussupport.html file your browser will also automatically try to load sinussupport.js in the background. But because you see this, you know your browser could not find or load the .js file. Make sure sinussupport.js is located in your current working directory (the same folder in which you have opened this sinussupport.html file).<br><br> INSTALLATION: download the full .zip file from github and extract it into a local folder, change to this new folder and open sinussupport.html from there.
+    </div>
+    <div>
+        <h4>
+			SinusSupport: Generates very fast printable support material with very few travel moves and deccelerations  (ver 0.3)
+        </h4>
+        <a href="#help"><h3>WHAT DOES THIS PROGRAM DO?</h3></a>
+        <div id="gui" style="display: none;">
+
+            <table style="width:1100">
+                <tr>
+                    <td>
+                        SVG file To use as Input
+                        <br><input id="svgInputFile" value="2d-Projection-FromStl.svg" type="text" accept=".svg" />
+                        <button id="create"><h4>Load SVG file and generate Support<h4></button>
+                        <br>(assumed to be in the same folder as this program)
+
+                        <br>
+                        <a download="supportPathData.scad" id="downloadlink" style="display: none;">Get the resulting Support Path .Scad code</a>
+                    </td>
+                    <td>|<br>|<br>|<br>|<br>|<br></td>
+                    <td>
+                        Settings:
+                        <br>xPeriodLen<input id="xPeriodLen" value="6" type="number" />
+                        <br>yAmplitude<input id="yAmplitude" type="number" value="6" type="number" />
+                        <br>lineThick<input id="lineThick" value="0.6" type="number" />
+                        <br>
+                    </td>
+                    <td>
+
+                        <br>lineYMargin<input id="lineYMargin" value="0.1" type="number" />
+                        <br>stepsPerPeriod<input id="stepsPerPeriod" value="15" type="number" />
+                        <br>curveInterpolationSteps<input id="curveInterpolationSteps" value="3" type="number" />
+                        <br>
+                    </td>
+
+                </tr>
+            </table>
+
+
+            <div name="canvas div">
+                <border>
+                    <canvas id="canv" style="border:1px solid black;" width="1100" height="400" />
+                </border>
+            </div>
+        </div>
+        <div id="help">
+            <h3>USE OF THIS PROGRAM (See MORE INSTRUCTIONS BELOW):<br>It generates very fast printable support material with very few travel moves and deccelerations</h3>
+
+
+            <table style="border:1px solid black;">
+                <tr>
+                    <th colspan="3"></th>
+                </tr>
+                <tr>
+                    <th>from this:</th>
+                    <th> to this:</th>
+                    <th>having very few sharp corners(no deccelerations) and few travel moves like this:</th>
+                </tr>
+                <tr>
+                    <td>
+
+                        <br><img src="images/stl.png" width="400" height="200">
+                    </td>
+                    <td>
+
+                        <br> <img src="images/ModWithSupport.png" width="400" height="200">
+                    </td>
+                    <td>
+
+                        <br><img src="images/fewTravelMoves.png" width="400" height="200">
+                </tr>
+            </table>
+            <ul>
+                <br>
+                <li>
+                    (INSTALLATION: download the full .zip file from github and extract it into a local folder, change to this new folder and open sinussupport.html from there).
+                </li>
+                <br>
+                <li>step 1:create a 2D projection of your models .stl using openscad:
+
+                    <br>open 2d-Projection-FromStl.scad in scad and followthe instructions inside to create a 2d Projection of your model and save it as SVG
+
+                    <br>
+                    <img src="images/2d-projection.png" width="400" height="200">
+                </li>
+                <br>
+                <li>
+                    step 2: In the Webbrowser (sinussupport.html) in the controls at the TOP-LEFT enter the name of the SVG you have just created in openscad
+
+                </li>
+                <br>
+                <li>
+                    step 3: Click on Load SVG File and then on the "Get resulting Support Path scad code" which will appear if there were no errors
+                    <br>
+                    <img src="images/supportCreated.png" width="400" height="200">
+                </li>
+                <br>
+                <li>step 4: save the resulting file under the suggested name "supportPathData.scad" in the same folder with the other files of this program.</li>
+                <br>
+                <li>
+                    step 5: open sinusSupport.scad in openscad and render it. here comes your support Material.
+                    <br>
+                    <img src="images/supportMaterial.png" width="400" height="200">
+                </li>
+                <br>
+                <li>step 6: edit the sinusSupport.scad or "include" it to UNION it with you original Model. (you could also subtract the hull of your Model from the support Material if you only need the support on bottom of the model, and not in its holes)
+
+                    <br>
+                    <img src="images/withSupport.png" width="400" height="200">
+                </li>
+                <br>
+                <li>Congratulations! You have an inbuilt fast printable sinusoidal Support
+
+                </li>
+
+
+            </ul>
+        </div>
+
+</body>
+<script type="text/javascript" src="sinussupport.js"></script>
+
+</html>
