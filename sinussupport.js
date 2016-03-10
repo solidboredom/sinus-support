@@ -68,6 +68,7 @@ function ImportSvgAndCreateSupportPath() {
         xPeriodLen: parseFloat(document.getElementById('xPeriodLen').value),
         yAmplitude: parseFloat(document.getElementById('yAmplitude').value),
         lineThick: parseFloat(document.getElementById('lineThick').value),
+		turn_90:document.getElementById('turn_90').checked,
         lineYMargin: parseFloat(document.getElementById('lineYMargin').value),
         stepsPerPeriod: parseFloat(document.getElementById('stepsPerPeriod').value),
         curveInterpolationSteps: parseFloat(document.getElementById('curveInterpolationSteps').value),
@@ -75,7 +76,7 @@ function ImportSvgAndCreateSupportPath() {
     };
 
     //var svgInputFile="SinusSupport-FromStl.svg";//"sensorholder.svg";
-    var part = importSvg(supportSettings.svgInputFile);
+    var part = importSvg(supportSettings.svgInputFile,supportSettings.turn_90);
 
     plotShells(part.shellMetas, part.partBounds, canvasContext);
 
@@ -89,13 +90,13 @@ function ImportSvgAndCreateSupportPath() {
 
     var supportPath = plotSinus(canvasContext, part.partBounds, sortedShellMetas, supportSettings);
 
-    var resultPath = createScadTextFrom(supportPath, /*flipXy=*/ true);
+    var resultPath = createScadTextFrom(supportPath, /*flipXy=*/ true,supportSettings.turn_90);
     return resultPath;
 }
 
 
 
-function createScadTextFrom(supportPath, flipXy = false) {
+function createScadTextFrom(supportPath, flipXy,turn_90) {
 
 
     var resultPath = ""; // "pathLen=" + supportPath.length / 2 + ";\n";
@@ -103,9 +104,9 @@ function createScadTextFrom(supportPath, flipXy = false) {
     resultPath += "supportPath=[";
 
     for (var i = 0; i < supportPath.length; i++) {
-        if (i % 2 == 0) resultPath += "[" + supportPath[i];
+        if (i % 2 == 0) resultPath += "[" + (turn_90?supportPath[i+1]:supportPath[i]);
         else {
-            resultPath += "," + ((flipXy ? -1 : 1) * supportPath[i]) + "]";
+            resultPath += "," + ((flipXy ? -1 : 1) * (turn_90?supportPath[i-1]:supportPath[i])) + "]";
             if (i != supportPath.length - 1) resultPath += ",";
         }
     }
@@ -296,7 +297,7 @@ function printShellMetas(shellMetas) {
     shellMetas.forEach(function(m) console.log(!m ? "shell NULL" : ("shellId: " + m.shellId + "(fill=" + m.fillContents + ")->" + m.containsShells.map(function(m) !m ? "null" : m.shellId))));
 }
 
-function importSvg(svgInputFile) {
+function importSvg(svgInputFile,turn_90) {
     'use strict';
     var parser = new DOMParser();
     var doc = parser.parseFromString(FileHelper.readStringFromFileAtPath(svgInputFile), "image/svg+xml");
@@ -324,7 +325,7 @@ function importSvg(svgInputFile) {
             curPolygonMeta.shellPolygon = curPolygon;
             shellMetas.push(curPolygonMeta)
         } else {
-            var coords = [pathNode.x, pathNode.y];
+            var coords = turn_90?[pathNode.y, pathNode.x]:[pathNode.x, pathNode.y];
 
             if (pathNode.pathSegType == 2) //"M")
             {

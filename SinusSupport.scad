@@ -24,4 +24,4 @@ for(e=[0:1:len(supportPath)-2])
 linear_extrude(height = 10)supportbase();
 
 //we can add the original model 
-rotate([0,0,-90])import("..//GripHandle-Joint-Shell-topPart.scad.stl");
+ import("..//GripHandle-Joint-Shell-topPart.scad.stl");

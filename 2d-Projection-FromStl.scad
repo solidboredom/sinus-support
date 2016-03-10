@@ -2,7 +2,7 @@
 
 //STEP1: Change the path below to the stl of your model
 projection(cut=false)
-	rotate([0,0,-90])import("..//GripHandle-Joint-Shell-topPart.scad.stl");
+	import("..//GripHandle-Joint-Shell-topPart.scad.stl");
        //you can as well directly project your model                         //instead 																		//creating the .stl file first and importing it here 
 
 //STEP2: now press F6 to render it

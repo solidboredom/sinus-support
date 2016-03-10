@@ -22,7 +22,7 @@
                     <td>
                         SVG file To use as Input
                         <br><input id="svgInputFile" value="2d-Projection-FromStl.svg" type="text" accept=".svg" />
-                        <button id="create"><h4>Load SVG file and generate Support<h4></button>
+                        <button id="create"><h4>Load SVG file and generate Support</h4></button>
                         <br>(assumed to be in the same folder as this program)
 
                         <br>
@@ -30,9 +30,9 @@
                     </td>
                     <td>|<br>|<br>|<br>|<br>|<br></td>
                     <td>
-                        Settings:
+                        Settings: <input id="turn_90" value="6" type="checkbox" />turn 90 degrees
                         <br>xPeriodLen<input id="xPeriodLen" value="6" type="number" />
-                        <br>yAmplitude<input id="yAmplitude" type="number" value="6" type="number" />
+                        <br>yAmplitude<input id="yAmplitude" value="6" type="number" />
                         <br>lineThick<input id="lineThick" value="0.6" type="number" />
                         <br>
                     </td>
@@ -50,7 +50,7 @@
 
             <div name="canvas div">
                 <border>
-                    <canvas id="canv" style="border:1px solid black;" width="1100" height="400" />
+                    <canvas id="canv" style="border:1px solid black;" width="1100" height="400" ></canvas>
                 </border>
             </div>
         </div>
@@ -127,7 +127,7 @@
 
             </ul>
         </div>
-
+	</div>
 </body>
 <script type="text/javascript" src="sinussupport.js"></script>
 
