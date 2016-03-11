@@ -8,11 +8,11 @@
 
 <body>
     <div id="noconn">
-        <h1> ERROR LOADING SCRIPT PROGRAM!    unable to load sinussupport.js</h1> If you see this message that means the script file sinussupport.js, which is referenced and used by this page, was not properly loaded by your browser. Every time you open this sinussupport.html file your browser will also automatically try to load sinussupport.js in the background. But because you see this, you know your browser could not find or load the .js file. Make sure sinussupport.js is located in your current working directory (the same folder in which you have opened this sinussupport.html file).<br><br> INSTALLATION: download the full .zip file from github and extract it into a local folder, change to this new folder and open sinussupport.html from there.
+      <br><br><h1> ------ERROR LOADING SCRIPT FILE FOR THE PROGRAM!------<br> ------unable to load file: sinussupport.js </h1><br>If you see this message that means the script file sinussupport.js, which is referenced and used by this page, was not properly loaded by your browser. Every time you open this sinussupport.html file your browser will also automatically try to load sinussupport.js in the background. But because you see this, you know your browser could not find or load the .js file. Make sure sinussupport.js is located in your current working directory (the same folder in which you have opened this sinussupport.html file).<br><br> INSTALLATION: download the full .zip file from github and extract it into a local folder, change to this new folder and open sinussupport.html from there.
     </div>
     <div>
         <h4>
-			SinusSupport: Generates very fast printable support material with very few travel moves and deccelerations  (ver 0.3)
+			SinusSupport: Generates very fast printable support material with very few travel moves and deccelerations.  VER: 0.4
         </h4>
         <a href="#help"><h3>WHAT DOES THIS PROGRAM DO?</h3></a>
         <div id="gui" style="display: none;">
@@ -22,7 +22,7 @@
                     <td>
                         SVG file To use as Input
                         <br><input id="svgInputFile" value="2d-Projection-FromStl.svg" type="text" accept=".svg" />
-                        <button id="create"><h4>Load SVG file and generate Support</h4></button>
+                        <button id="create"><h4>Load SVG file and create Support</h4></button>
                         <br>(assumed to be in the same folder as this program)
 
                         <br>
@@ -30,15 +30,17 @@
                     </td>
                     <td>|<br>|<br>|<br>|<br>|<br></td>
                     <td>
-                        Settings: <input id="turn_90" value="6" type="checkbox" />turn 90 degrees
+                        Settings: <input id="turn_90" value="6" type="checkbox" checked />turn 90 degrees
                         <br>xPeriodLen<input id="xPeriodLen" value="6" type="number" />
                         <br>yAmplitude<input id="yAmplitude" value="6" type="number" />
                         <br>lineThick<input id="lineThick" value="0.6" type="number" />
                         <br>
                     </td>
                     <td>
-
-                        <br>lineYMargin<input id="lineYMargin" value="0.1" type="number" />
+					
+						pattern:<input type="radio" name="pattern" value="0" checked>half-circle | 
+  						<input type="radio" name="pattern" value="1"> sinus
+						<br>lineYMargin<input id="lineYMargin" value="0.1" type="number" />
                         <br>stepsPerPeriod<input id="stepsPerPeriod" value="15" type="number" />
                         <br>curveInterpolationSteps<input id="curveInterpolationSteps" value="3" type="number" />
                         <br>
@@ -54,8 +56,9 @@
                 </border>
             </div>
         </div>
+		<br>
         <div id="help">
-            <h3>USE OF THIS PROGRAM (See MORE INSTRUCTIONS BELOW):<br>It generates very fast printable support material with very few travel moves and deccelerations</h3>
+            <h3>The USE (INSTRUCTIONS below) is to generate very fast printable support material with very few travel moves and deccelerations</h3>
 
 
             <table style="border:1px solid black;">
@@ -84,7 +87,7 @@
             <ul>
                 <br>
                 <li>
-                    (INSTALLATION: download the full .zip file from github and extract it into a local folder, change to this new folder and open sinussupport.html from there).
+                    (INSTALLATION: download the full .zip file from github and extract it into a local folder, change to this new folder and from there open the sinussupport.html in a webbrowser).
                 </li>
                 <br>
                 <li>step 1:create a 2D projection of your models .stl using openscad:

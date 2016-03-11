@@ -1,6 +1,6 @@
 'use strict';
 /*
-Copyright (C) pproj 
+Copyright (C) pproj (pproj@posteo.de) 
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -73,22 +73,21 @@ function ImportSvgAndCreateSupportPath() {
         stepsPerPeriod: parseFloat(document.getElementById('stepsPerPeriod').value),
         curveInterpolationSteps: parseFloat(document.getElementById('curveInterpolationSteps').value),
         svgInputFile: document.getElementById('svgInputFile').value,
+		pattern: parseFloat(document.querySelector('input[name="pattern"]:checked').value)
     };
 
-    //var svgInputFile="SinusSupport-FromStl.svg";//"sensorholder.svg";
+
     var part = importSvg(supportSettings.svgInputFile,supportSettings.turn_90);
 
     plotShells(part.shellMetas, part.partBounds, canvasContext);
 
     var sortedShellMetas = orderShellMetas(part.shellMetas)
     part.partBounds.Plot(canvasContext);
-
-    //console.log("------------end------");
     printShellMetas(part.shellMetas);
 
     //--------------- plotSinus  ----------------
 
-    var supportPath = plotSinus(canvasContext, part.partBounds, sortedShellMetas, supportSettings);
+    var supportPath = plotSinus(canvasContext, supportSettings.pattern, part.partBounds, sortedShellMetas, supportSettings);
 
     var resultPath = createScadTextFrom(supportPath, /*flipXy=*/ true,supportSettings.turn_90);
     return resultPath;
@@ -125,10 +124,42 @@ function FileHelper() {} {
         return returnValue;
     }
 }
+ function mod(val, step){//safe for floatpoint types
+    var valDecCount = (val.toString().split('.')[1] || '').length;
+    var stepDecCount = (step.toString().split('.')[1] || '').length;
+    var decCount = valDecCount > stepDecCount? valDecCount : stepDecCount;
+    var valInt = parseInt(val.toFixed(decCount).replace('.',''));
+    var stepInt = parseInt(step.toFixed(decCount).replace('.',''));
+    return (valInt % stepInt) / Math.pow(10, decCount);
+  }
 
-
-function plotSinus(canvasContext, partBounds, sortedShellMetas, supportSettings) {
+function getXY(pattern,direction, xRaw, xSize, yMin, yHalfAmp, xPeriodLen) {
     'use strict';
+    var x = direction > 0 ? xRaw : xSize - xRaw;
+	var y;
+	var xRes =x;
+	
+	var xPeriodic=mod(x,xPeriodLen);
+	var xRadian= (2 * Math.PI * xPeriodic / xPeriodLen); 
+    var lessThanPi=(xRadian>=0 && (xRadian<=Math.PI|| xRadian>2*Math.PI))?true:false;
+    
+	y = yMin + yHalfAmp + Math.sin((direction > 0 ? Math.PI : 0) +xRadian) * yHalfAmp;
+	if(pattern==0)
+	{
+	var	xHalfPeriod=xPeriodLen/2;
+	 var xBase=x-mod(x,xPeriodLen);
+		
+	 xRes = xBase+(xRadian>Math.PI?xHalfPeriod:0)
+		 	+Math.cos( Math.PI  
+					  +(xRadian>Math.PI?(Math.PI-xRadian): xRadian)) * xHalfPeriod/2;
+	}
+		return [xRes,y];
+}
+
+
+function plotSinus(canvasContext, pattern, partBounds, sortedShellMetas, supportSettings) {
+    'use strict';
+	console.log("pattern:"+pattern);
     var xSize = partBounds.maxXy[0] - partBounds.minXy[0];
 
     var xPeriodLen = supportSettings.xPeriodLen; //.6;
@@ -152,7 +183,7 @@ function plotSinus(canvasContext, partBounds, sortedShellMetas, supportSettings)
         for (var xRaw = 0; xRaw < xSize; xRaw += xStep) {
             'use strict';
             var yHalfAmp = (yMax - yMin) / 2;
-            var xy = getXY(direction, xRaw, xSize, yMin, yHalfAmp, xPeriodLen);
+            var xy = getXY(pattern, direction, xRaw, xSize, yMin, yHalfAmp, xPeriodLen);
             var x = xy[0] + partBounds.minXy[0];
             var y = xy[1];
 
@@ -160,7 +191,7 @@ function plotSinus(canvasContext, partBounds, sortedShellMetas, supportSettings)
             if (fillContents) {
                 if (!wasfillContents && supportPath.length > 0) {
 
-                    var oneBehindTargetPoint = getXY(direction, xRaw + xStep, xSize, yMin, yHalfAmp, xPeriodLen);
+                    var oneBehindTargetPoint = getXY(pattern, direction, xRaw + xStep, xSize, yMin, yHalfAmp, xPeriodLen);
                     oneBehindTargetPoint.x += partBounds.minXy[0];
                     var lastIndex = supportPath.length - 1;
                     var curvePoints = closeIn([supportPath[lastIndex - 3], supportPath[lastIndex - 2]], [supportPath[lastIndex - 1], supportPath[lastIndex]], [x, y], oneBehindTargetPoint, interPolationSteps)
@@ -459,14 +490,6 @@ function insidePoly(point, vs) {
     }
     return inside;
 };
-
-
-function getXY(direction, xRaw, xSize, yMin, yHalfAmp, xPeriodLen) {
-    'use strict';
-    var x = direction > 0 ? xRaw : xSize - xRaw;
-    var y = yMin + yHalfAmp + Math.sin((direction > 0 ? Math.PI : 0) + 2 * Math.PI * x / xPeriodLen) * yHalfAmp;
-    return [x, y];
-}
 
 
 
